@@ -21,7 +21,7 @@ do_k_fold = False
 
 train_datadir = "data_set"
 setFileNames = ['train.csv', 'test.csv', 'test.csv']
-grids = [([128, 64], (100, 300, 500), (0.001, 0.001),148, [8, 2, 2], 2)]
+grids = [([128, 64], (100, 100, 200), (0.001, 0.001),148, [8, 2, 2], 2)]
 data = input_data.read_data_sets(train_datadir, setFileNames = setFileNames, one_hot=True)
 trX, trY, teX, teY, vaX, vaY = data.train.images, data.train.labels, data.test.images, \
                                data.test.labels, data.validation.images, data.validation.labels
