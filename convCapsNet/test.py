@@ -14,7 +14,7 @@ from sklearn.metrics import confusion_matrix
 import math
 
 
-grids = [([10, 100], 0.001,148, [8,2], 2)]
+grids = [([100, 500], 0.001,148, [8,2], 2)]
 train_datadir = "data_set"
 setFileNames = ['train.csv', 'test.csv', 'test.csv']
 debug = False
