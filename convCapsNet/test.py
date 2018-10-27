@@ -18,7 +18,7 @@ grids = [([100, 500], 0.001,148, [8,2], 2)]
 train_datadir = "data_set"
 setFileNames = ['train.csv', 'test.csv', 'test.csv']
 debug = False
-isTraining = False
+isTraining = True
 do_grids = True
 do_k_fold = False
 

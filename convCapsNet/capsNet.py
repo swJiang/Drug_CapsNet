@@ -140,8 +140,8 @@ class CapsNet(object):
         inds = [i for i in range(len(trX))]
         val_acc = 0.
         tr_acc = 0.
-        acc_plot = []
-        tr_acc_plot = []
+        loss_plot = []
+        tr_loss_plot = []
         time.clock()
         t = []
         # try:
@@ -149,7 +149,7 @@ class CapsNet(object):
             epoch += 1
             np.random.shuffle(inds)
             count = 0
-            acc_= []
+            loss_= []
             for start, end in zip(range(0, len(trX)+1, cfg.batch_size), range(cfg.batch_size, len(trX)+1, cfg.batch_size)):
 
                 _trX = trX[inds[start:end]]
@@ -161,7 +161,7 @@ class CapsNet(object):
                               ],
                          feed_dict={self.X : _trX, self.Y : _trY})
 
-                acc_.append(acc)
+                loss_.append(_margin_loss)
                 count += 1
                 if count % cfg.print_frq:
                     # utils.print_out('epoch %d, step %d, gloSet %d, lr %.4f,  margin_loss %.4f, acc %.4f'
@@ -169,9 +169,9 @@ class CapsNet(object):
                     #                 #, log_f)
                     if train_writer_path:
                         train_writer.add_summary(summary, global_step=_global_step)
-                acc = np.sum(acc_)/count
+                loss_value = np.sum(loss_)/count
             if epoch % cfg.val_frq:
-                tr_acc_plot.append(acc)
+                tr_loss_plot.append(loss_value)
                 val_acc = 0.
                 val_count = 0
                 val_margin_loss = 0.
@@ -188,7 +188,7 @@ class CapsNet(object):
                     val_margin_loss += i_margin_loss
                 val_acc /= val_count
                 val_margin_loss /= val_count
-                acc_plot.append(val_acc)
+                # acc_plot.append(val_acc)
 
                 # tr_acc = 0.
                 # tr_count = 0
@@ -217,13 +217,11 @@ class CapsNet(object):
                 # print(np.argmax(_vaY, axis=1))
                 # print(tr_margin_loss, np.sum(np.equal(max_id, np.argmax(_vaY, axis=1)))/cfg.batch_size)
         #可视化数据
-        # x = len(acc_plot)
-        # y = acc_plot
-        # y2 = tr_acc_plot
-        # plt.figure()
-        # plt.plot(range(0,x), y)
-        # plt.plot(range(0,x), y2)
-        # plt.show()
+        x = len(tr_loss_plot)
+        y = tr_loss_plot
+        plt.figure()
+        plt.plot(range(0,x), y)
+        plt.show()
         ckpt_path = './model_path/test_model.ckpt'
         save_path = saver.save(sess, ckpt_path)
 
